@@ -1,6 +1,8 @@
 package cz.johnczek.kas.api.service;
 
 import cz.johnczek.kas.api.algorithm.huffman.HuffmanService;
+import cz.johnczek.kas.api.algorithm.lzw.LZWService;
+import cz.johnczek.kas.api.algorithm.lzw.dto.LZWResultDto;
 import cz.johnczek.kas.api.algorithm.runLength.RunLengthService;
 import cz.johnczek.kas.api.response.AlgorithmRecordResponse;
 import cz.johnczek.kas.api.response.BaseResponse;
@@ -8,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +21,13 @@ public class BaseServiceImpl implements BaseService {
 
     private static final String HUFFMAN_NAME = "Huffmanovo kódování";
 
+    private static final String LZW = "LZW";
+
     private final RunLengthService runLengthService;
 
     private final HuffmanService huffmanService;
+
+    private final LZWService lzwService;
 
     @Override
     public BaseResponse baseMethod(String message) {
@@ -28,6 +36,7 @@ public class BaseServiceImpl implements BaseService {
 
         result.addRecord(performRunLength(message));
         result.addRecord(performHuffman(message));
+        result.addRecord(performLZW(message));
 
         return result;
 
@@ -76,6 +85,29 @@ public class BaseServiceImpl implements BaseService {
                 .build();
     }
 
+    private AlgorithmRecordResponse performLZW(String message) {
+
+        long encodingTimeFrom = getCurrentNanoTime();
+        LZWResultDto resultDto = lzwService.encode(message);
+        long encodingTimeTo = getCurrentNanoTime();
+
+        String encodedMessage = resultDto.getResult().toString();
+        List<Integer> encodedMessageList = resultDto.getResult();
+
+        long decodingTimeFrom = getCurrentNanoTime();
+        String decodedMessage = lzwService.decode(encodedMessageList);
+        long decodingTimeTo = getCurrentNanoTime();
+
+        return AlgorithmRecordResponse.builder()
+                .algorithmName(LZW)
+                .encodedMessage(encodedMessage)
+                .encodedMessageSize((Integer.SIZE/8)*resultDto.getResult().size())
+                .encodingTime(encodingTimeTo-encodingTimeFrom)
+                .decodedMessage(decodedMessage)
+                .decodedMessageSize(new BigInteger(decodedMessage.getBytes()).toString(2).length())
+                .decodingTime(decodingTimeTo-decodingTimeFrom)
+                .build();
+    }
 
     private long getCurrentNanoTime() {
         return System.nanoTime();
