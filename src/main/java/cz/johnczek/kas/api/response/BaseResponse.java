@@ -5,6 +5,10 @@ import lombok.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * Base response containing list of algorithm records and original message
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

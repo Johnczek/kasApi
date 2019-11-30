@@ -2,6 +2,10 @@ package cz.johnczek.kas.api.algorithm.huffman;
 
 import lombok.*;
 
+/**
+ * Bianry tree node for Huffman coding
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -2,6 +2,10 @@ package cz.johnczek.kas.api.response;
 
 import lombok.*;
 
+/**
+ * Base response for every algorithm
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

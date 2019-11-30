@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Base POST request to API
+ */
+
 @NoArgsConstructor
 @Getter
 @Setter

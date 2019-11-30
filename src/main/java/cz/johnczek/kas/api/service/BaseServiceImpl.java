@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,6 +41,11 @@ public class BaseServiceImpl implements BaseService {
 
     }
 
+    /**
+     * Method performs RLE algorithm
+     * @param message message to be processed
+     * @return information about algorithm record
+     */
     private AlgorithmRecordResponse performRunLength(String message) {
 
         long encodingTimeFrom = getCurrentNanoTime();
@@ -64,6 +68,11 @@ public class BaseServiceImpl implements BaseService {
 
     }
 
+    /**
+     * Method performs Huffman coding
+     * @param message message to be processed
+     * @return information about algorithm record
+     */
     private AlgorithmRecordResponse performHuffman(String message) {
 
         long encodingTimeFrom = getCurrentNanoTime();
@@ -85,6 +94,11 @@ public class BaseServiceImpl implements BaseService {
                 .build();
     }
 
+    /**
+     * Method performs LZW algorithm
+     * @param message message to be processed
+     * @return information about algorithm record
+     */
     private AlgorithmRecordResponse performLZW(String message) {
 
         long encodingTimeFrom = getCurrentNanoTime();
@@ -109,6 +123,9 @@ public class BaseServiceImpl implements BaseService {
                 .build();
     }
 
+    /**
+     * @return actual nano tim
+     */
     private long getCurrentNanoTime() {
         return System.nanoTime();
     }

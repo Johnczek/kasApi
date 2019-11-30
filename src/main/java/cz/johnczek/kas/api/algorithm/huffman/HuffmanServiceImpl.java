@@ -13,6 +13,11 @@ public class HuffmanServiceImpl implements HuffmanService {
     private static Map<Character, String> prefixMap = new HashMap<>();
     private static Node root;
 
+    /**
+     * Method bilds binary tree from frequency map
+     * @param frequency frequency map
+     * @return root of binary tree
+     */
     private Node buildBinaryTree(Map<Character, Integer> frequency) {
         PriorityQueue<Node> queue = new PriorityQueue<>();
         Set<Character> keys = frequency.keySet();
@@ -31,6 +36,7 @@ public class HuffmanServiceImpl implements HuffmanService {
             Node n2 = queue.peek();
             queue.poll();
 
+            assert n2 != null;
             root = new Node(n1.getFrequency() + n2.getFrequency(), '-', n1, n2);
 
             queue.offer(root);
@@ -39,6 +45,11 @@ public class HuffmanServiceImpl implements HuffmanService {
         return queue.poll();
     }
 
+    /**
+     * Method sets prefix codes to perform coding
+     * @param node act node
+     * @param prefix prefix we want to set for
+     */
     private void setPrefixCodes(Node node, StringBuilder prefix) {
 
         if (node != null) {
