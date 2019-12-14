@@ -83,13 +83,18 @@ public class BaseServiceImpl implements BaseService {
         String decodedMessage = huffmanService.decode(encodedMessage);
         long decodingTimeTo = getCurrentNanoTime();
 
+        int decodedMessageSize = 0;
+        if (decodedMessage.getBytes().length > 0) {
+            decodedMessageSize = new BigInteger(decodedMessage.getBytes()).toString(2).length();
+        }
+
         return AlgorithmRecordResponse.builder()
                 .algorithmName(HUFFMAN_NAME)
                 .encodedMessage(encodedMessage)
                 .encodedMessageSize(encodedMessage.getBytes().length)
                 .encodingTime(encodingTimeTo-encodingTimeFrom)
                 .decodedMessage(decodedMessage)
-                .decodedMessageSize(new BigInteger(decodedMessage.getBytes()).toString(2).length())
+                .decodedMessageSize(decodedMessageSize)
                 .decodingTime(decodingTimeTo-decodingTimeFrom)
                 .build();
     }
@@ -120,6 +125,7 @@ public class BaseServiceImpl implements BaseService {
                 .decodedMessage(decodedMessage)
                 .decodedMessageSize(new BigInteger(decodedMessage.getBytes()).toString(2).length())
                 .decodingTime(decodingTimeTo-decodingTimeFrom)
+                .dictionary(resultDto.getDictionary())
                 .build();
     }
 
