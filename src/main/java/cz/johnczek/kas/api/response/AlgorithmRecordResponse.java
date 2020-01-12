@@ -22,6 +22,8 @@ public class AlgorithmRecordResponse {
 
     private int encodedMessageSize;
 
+    private String encodedMessageSizeToolTip;
+
     private long encodingTime;
 
     private String decodedMessage;
@@ -31,5 +33,8 @@ public class AlgorithmRecordResponse {
     private long decodingTime;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, Integer> dictionary;
+    private Map<String, Integer> LZWDictionary;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<Character, String> huffmanDictionary;
 }

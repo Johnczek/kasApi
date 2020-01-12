@@ -23,6 +23,16 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return frequency - o.getFrequency();
+        final int freqComparasion = Integer.compare(this.getFrequency(), o.getFrequency());
+
+        if (freqComparasion != 0) {
+            return freqComparasion;
+        }
+
+        return Integer.compare(this.getCharacter(), o.getCharacter());
+    }
+
+    public boolean isLeaf() {
+        return this.getLeft() == null && this.getRight() == null;
     }
 }

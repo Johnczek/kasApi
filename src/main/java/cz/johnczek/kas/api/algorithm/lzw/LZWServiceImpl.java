@@ -4,6 +4,7 @@ import cz.johnczek.kas.api.algorithm.lzw.dto.LZWResultDto;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class LZWServiceImpl implements LZWService {
@@ -34,9 +35,31 @@ public class LZWServiceImpl implements LZWService {
             result.add(dictionary.get(word));
 
         return LZWResultDto.builder()
-                .dictionary(dictionary)
+                .dictionary(reduceMap(dictionary, result))
                 .result(result)
                 .build();
+    }
+
+    private Map<String, Integer> reduceMap(Map<String, Integer> map, List<Integer> result) {
+        Map<String, Integer> resultMap = new LinkedHashMap<>();
+
+        for (Integer record: result) {
+            String key = getKeyFromMap(map, record);
+
+            if (key != null && resultMap.get(key) == null) {
+                resultMap.put(key, map.get(key));
+            }
+        }
+
+        return resultMap;
+    }
+
+    public String getKeyFromMap(Map<String, Integer> map, Integer value) {
+        return map
+                .entrySet()
+                .stream()
+                .filter(entry -> value.equals(entry.getValue()))
+                .map(Map.Entry::getKey).findFirst().orElse(null);
     }
 
     @Override

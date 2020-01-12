@@ -18,6 +18,8 @@ public class BaseResponse {
 
     private String message;
 
+    private int messageSize;
+
     private Set<AlgorithmRecordResponse> records;
 
     public void addRecord(AlgorithmRecordResponse record) {
